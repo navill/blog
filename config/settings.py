@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = ')5gbuonnci_40=pznrojp5fmdxl+f_^erjl^ox@!v*0ijh8bn2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -155,11 +155,11 @@ SITE_ID = 1  # multi domain 사용 시 - 'django.contrib.sites',
 LOGIN_REDIRECT_URL = '/'
 STATIC_URL = '/static/'
 # bootstrap theme를 적용할 때는 STATICFILES_DIRS로 등록해야한다.
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
 # staci 파일들을 모아놓은 폴더
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # 미디어 파일들을 모아놓은 폴더
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
