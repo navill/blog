@@ -11,30 +11,30 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 
 # Create your views here.
-import requests
-def naver_api(address):
-    naver_url = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=" + address
-    custom_headers = {
-        "X-NCP-APIGW-API-KEY-ID": 'b4wnbq4cd7',
-        "X-NCP-APIGW-API-KEY": "8o4ERGCLrQgfFb9qoXRmJELLQBI6N3kHxUjELMXX"
-    }
-
-    # # requests of both API
-    naver_req = requests.get(naver_url, headers=custom_headers)
-    # result = list()
-    # jb_address = road_req.json()["results"]["juso"][0]['jibunAddr']
-    # rd_address = road_req.json()["results"]["juso"][0]['roadAddr']
-    # coord_lat = naver_req.json()["addresses"][0]["x"]
-    # coord_long = naver_req.json()["addresses"][0]["y"]
-    result = (
-              naver_req.json()["addresses"][0]["x"],
-              naver_req.json()["addresses"][0]["y"]
-              )
-    # result.append(road_req.json()["results"]["juso"][0]['jibunAddr'])
-    # result.append(road_req.json()["results"]["juso"][0]['roadAddr'])
-    # result.append(naver_req.json()["addresses"][0]["x"])
-    # result.append(naver_req.json()["addresses"][0]["y"])
-    return result
+# import requests
+# def naver_api(address):
+#     naver_url = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=" + address
+#     custom_headers = {
+#         "X-NCP-APIGW-API-KEY-ID": 'b4wnbq4cd7',
+#         "X-NCP-APIGW-API-KEY": "8o4ERGCLrQgfFb9qoXRmJELLQBI6N3kHxUjELMXX"
+#     }
+#
+#     # # requests of both API
+#     naver_req = requests.get(naver_url, headers=custom_headers)
+#     # result = list()
+#     # jb_address = road_req.json()["results"]["juso"][0]['jibunAddr']
+#     # rd_address = road_req.json()["results"]["juso"][0]['roadAddr']
+#     # coord_lat = naver_req.json()["addresses"][0]["x"]
+#     # coord_long = naver_req.json()["addresses"][0]["y"]
+#     result = (
+#               naver_req.json()["addresses"][0]["x"],
+#               naver_req.json()["addresses"][0]["y"]
+#               )
+#     # result.append(road_req.json()["results"]["juso"][0]['jibunAddr'])
+#     # result.append(road_req.json()["results"]["juso"][0]['roadAddr'])
+#     # result.append(naver_req.json()["addresses"][0]["x"])
+#     # result.append(naver_req.json()["addresses"][0]["y"])
+#     return result
 
 
 
@@ -231,7 +231,7 @@ class CategoryList(ListView):
 class AboutView(TemplateView):
     # model = Category
     template_name = "blog/about.html"
-    naver_api("상원길 63")
+    # naver_api("상원길 63")
 
 
 
