@@ -8,6 +8,12 @@ https://docs.djangoproject.com/en/2.1/howto/deployment/wsgi/
 """
 
 import os
+import sys
+
+path = 'home/jihoon/wps_blog/blog'
+if path not in sys.path:
+    sys.path.append(path)
+
 
 from django.core.wsgi import get_wsgi_application
 

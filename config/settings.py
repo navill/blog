@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = ')5gbuonnci_40=pznrojp5fmdxl+f_^erjl^ox@!v*0ijh8bn2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -35,9 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django_ajax',
     'blog',
-    # 'blog.apps.BlogConfig',
 
     'django.contrib.sites',
     'allauth',
@@ -152,7 +150,8 @@ AUTHENTICATION_BACKENDS = [
 ]
 # SOCIAL_AUTH_FACEBOOK_KEY = ''  # App ID
 # SOCIAL_AUTH_FACEBOOK_SECRET = 'ab2b31363cd5a516f814e0751013a5bd'  # app key
-SITE_ID = 1  # multi domain 사용 시
+SITE_ID = 1  # multi domain 사용 시 - 'django.contrib.sites',
+
 LOGIN_REDIRECT_URL = '/'
 STATIC_URL = '/static/'
 # bootstrap theme를 적용할 때는 STATICFILES_DIRS로 등록해야한다.
