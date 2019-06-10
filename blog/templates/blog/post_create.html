@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}
+{% endblock %}
+
+{% block content %}
+<form action="" method="post">
+    {% csrf_token %}
+    {{form.media}} {# field나 form에 설정된 css, js 파일 목록을 출력 #}
+    {{form.as_p}} {# form.as_p : form tag 출력 #}
+    <input type="submit" value="Write">
+</form>
+{% endblock %}

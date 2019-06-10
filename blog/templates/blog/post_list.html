@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<!--TODO : list page의 주소를 확인할 수 있지만 detail에 접속할 경우 '/detail/13/static/blog/img/home-bg.jpg'를 인식하지 못하는 문제 해결-->
+<header class="masthead" style="background-image: url('/static/blog/img/home-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>JH Blog</h1>
+                    <span class="subheading">A Blog applied with BootStrap</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content -->
+{% load tagging_tags %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            {% for object in object_list %}
+            <div class="post-preview">
+                <a href="{% url 'blog:detail' object.id %}">
+                    <h2 class="post-title">
+                        {{object.title}}
+                    </h2>
+                    <h3 class="post-tag">
+                        {% tags_for_object object as tags %}
+                            {% if tags %}
+                                {% for tag in tags %}
+                                    <a href="{% url 'blog:post_taggedlist' tag.name %}" style="color:#a3b4c3">#{{tag.name}} </a>
+                                {% endfor %}
+                            {% else %}
+                            Empty Tag
+                            {% endif %}
+                    </h3>
+                </a>
+                <p class="post-meta">Posted by {{object.author}}
+                    at {{object.updated}}
+                </p>
+            </div>
+            <hr>
+            {% endfor %}
+
+            <!-- Pager -->
+            <!--<div class="clearfix">-->
+            <!--<a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>-->
+            <!--</div>-->
+            <div class="pagination">
+                {% if object_list.has_previous %}
+                <a class="pagination-action" href="?page=1">
+                    <i class="fas fa-angle-double-left" aria-hidden="false"> </i>
+                </a>
+                <a class="pagination-action" href="?page={{ object_list.previous_page_number }}">
+                    <i class="fas fa-angle-left" aria-hidden="true"> </i>
+                </a>
+                {% endif %}
+                {% for num in object_list.paginator.page_range %}
+                {% if object_list.number == num %}
+                <span class="pagination-number pagination-current"> {{ num }} </span>
+                {% elif num > object_list.number|add:'-3' and num < object_list.number|add:'3' %}
+                <a class="pagination-number" href="?page={{ num }}"> {{ num }} </a>
+                {% endif %}
+                {% endfor %}
+                {% if object_list.has_next %}
+                <a class="pagination-action" href="?page={{object_list.next_page_number}}">
+                    <i class="fas fa-angle-right" aria-hidden="true"></i>
+                </a>
+                <a class="pagination-action" href="?page={{object_list.paginator.num_pages}}">
+                    <i class="fas fa-angle-double-right" aria-hidden="true"></i>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<hr>
+{% endblock %}

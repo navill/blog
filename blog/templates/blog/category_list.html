@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}
+{% endblock %}
+{% block content %}
+<p>category_list</p>
+{% for object in category_object_list %}
+<a href="{% url 'blog:c_list' object.id %}">{{object.name}}</a>
+<!--/ {{object.title}} / {{object.text|safe}} <br>-->
+{% endfor %}
+
+{% endblock %}
