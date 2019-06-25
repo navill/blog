@@ -6,7 +6,7 @@
 
 {% block content %}
 <!-- Page Header -->
-<header class="masthead" style="background-image: url('/static/blog/img/about-bg.jpg')">
+<header class="masthead" style="background-image: url({% static 'blog/img/about-bg.jpg' %})">
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
@@ -27,18 +27,14 @@
             <p>패스트 캠퍼스에서 Web Programming School 과정을 듣고 있습니다.</p>
             <p>Python과 Django를 이용한 backend-side를 공부하고 있습니다.</p><br>
         </div>
-
-
     </div>
     <div id="map" style="width: 300; height: 300px; position: relative; overflow: hidden;">
         <div class="buttons" style="position: absolute; z-index:1000;">
             <input id="to-sungsu" type="button" value="FastCampus - 성수" class="btn btn-primary btn-sm"><br>
-            <input id="to-gangnam" type="button" value="FastCampus - 강남" class="btn btn-secondary btn-sm">
+            <!--<input id="to-gangnam" type="button" value="FastCampus - 강남" class="btn btn-secondary btn-sm">-->
         </div>
-
     </div>
 </div>
-
 <hr>
 
 <!-- Footer -->
@@ -71,76 +67,30 @@ center: new naver.maps.LatLng(37.545006, 127.057081),
 zoom: 12
 });
 
-<!--좌표-->
 var gangnam = new naver.maps.LatLng(37.495492, 127.029336),
 sungsu = new naver.maps.LatLng(37.545006, 127.057081);
-
-var gangnam_address = "서울 강남구",
-sungsu_address = "서울 성동구 성수이로 113 제강빌딩 8층";
-<!--marker-->
 var marker = new naver.maps.Marker({position: sungsu, map: map});
 
 var contentString = [
         '<div class="iw_inner">',
-        '   <h3 style="font-size:20px; display:center;">FastCampus 성수 강의장</h3>',
-        '   <p style="font-size:15px;">{{sungsu_address}}<br />',
-        '       <a href="https://www.fastcampus.co.kr" target="_blank">https://www.fastcampus.co.kr/</a>',
+        '   <h3>FastCampus-성수</h3>',
+        '   <p>서울특별시 성동구 성수이로 113 / 제강빌딩 8층<br />',
+        '       <a href="https://www.fastcampus.co.kr" target="_blank">https://www.fastcampus.co.kr</a>',
         '   </p>',
         '</div>'
     ].join('');
-
 var infowindow = new naver.maps.InfoWindow({
     content: contentString
 });
-<!--infowindow.open(map, marker);-->
 
-var temp_var = null;
-
-<!--위치 버튼 이벤트-->
-$("#to-gangnam").on("click", function(e) {
-e.preventDefault();
-var map = new naver.maps.Map(document.getElementById('map'), {
-center: new naver.maps.LatLng(37.495492, 127.029336),
-zoom: 12
-});
-
-var marker = new naver.maps.Marker({position: gangnam, map: map});
-map.setCenter(gangnam);
-
-naver.maps.Event.addListener(marker, "click", function (e) {
-            if (infowindow.getMap()) {
-                infowindow.close();
-            } else {
-                infowindow.open(map, marker);
-            }
-        });
-
-});
-
-$("#to-sungsu").on("click", function(e) {
-e.preventDefault();
-
-var map = new naver.maps.Map(document.getElementById('map'), {
-center: new naver.maps.LatLng(37.545006, 127.057081),
-zoom: 12
-});
-var marker = new naver.maps.Marker({position: sungsu, map: map});
-map.setCenter(sungsu);
-
-naver.maps.Event.addListener(marker, "click", function (e) {
-            if (infowindow.getMap()) {
-                infowindow.close();
-            } else {
-                infowindow.open(map, marker);
-            }
-        });
+naver.maps.Event.addListener(marker, "click", function(e) {
+    if (infowindow.getMap()) {
+        infowindow.close();
+    } else {
         infowindow.open(map, marker);
+    }
 });
-
-<!--클릭 이벤트-->
-
-<!--infowindow.open(map, marker);-->
-
+infowindow.open(map, marker);
 
 </script>
 {% endblock %}

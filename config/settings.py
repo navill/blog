@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-
+import secret_key
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -35,21 +35,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog',
-
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.naver',
-    'sslserver',
-
     'tagging',
     'ckeditor',
     'ckeditor_uploader',  # upload view : 위즈윅 에디터의 추가 기능
     'debug_toolbar',
     'django_extensions',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -60,9 +56,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'django_ajax.middleware.AJAXMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -88,11 +83,26 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'blog_db',
+        'USER': secret_key.key['USER'],
+        'PASSWORD': secret_key.key['PASSWORD'],
+        # 보안상 storage의 위치는 노출시키지 않는 것이 좋다
+        'HOST': secret_key.key['HOST'],
+        'PORT': '5432',
+        # 하나의 사이트에는 되도록 하나의 데이터베이스를 사용하는 것이 좋다.
+        # 멀티 데이터베이스와 다른 개념이다.
+        # 한 그룹을 두개의 데이터베이스로 쪼개지 않는다.
+    },
 }
 DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.versions.VersionsPanel',
@@ -148,28 +158,49 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
-# SOCIAL_AUTH_FACEBOOK_KEY = ''  # App ID
-# SOCIAL_AUTH_FACEBOOK_SECRET = 'ab2b31363cd5a516f814e0751013a5bd'  # app key
+
 SITE_ID = 1  # multi domain 사용 시 - 'django.contrib.sites',
 
+
+# AWS S3 settings
+# aws setting
+AWS_ACCESS_KEY_ID = secret_key.key['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = secret_key.key['AWS_SECRET_ACCESS_KEY']
+AWS_REGION = 'ap-northeast-2'  # S3의 주소에서 확인할 수 있다.
+AWS_STORAGE_BUCKET_NAME = secret_key.key['AWS_STORAGE_BUCKET_NAME']
+AWS_S3_CUSTOM_DOMAIN = 's3.%s.amazonaws.com/%s' % (AWS_REGION, AWS_STORAGE_BUCKET_NAME)
+# AWS_S3_CUSTOM_DOMAIN = '%s' % AWS_STORAGE_BUCKET_NAME
+
+# http로 주소를 노출하기 위해 사용한다.
+AWS_S3_SECURE_URLS = False
+
+# browser가 해당 파일에 접속할 때 나타나는 파라미터 값 - 웹 브라우저 content-encoding type에서 확인 가능
+# 압축, 캐시 등
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_S3_FILE_OVERWRITE = False  # False일 경우 중복 파일일 경우 파일 명을 변경하여 추가한다.
+AWS_DEFAULT_ACL = 'public-read'
+AWS_LOCATION = ''
+
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'  # -> static.sample로 이동
+DEFAULT_FILE_STORAGE = 'config.s3media.MediaStorage'  # -> 별도의 파일을 media 경로에서 관리할 경우 boto3 override를 통해 media.sample로 이동
+
+
 LOGIN_REDIRECT_URL = '/'
-STATIC_URL = '/static/'
-# bootstrap theme를 적용할 때는 STATICFILES_DIRS로 등록해야한다.
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, 'static'),
-# )
-# staci 파일들을 모아놓은 폴더
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# 미디어 파일들을 모아놓은 폴더
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
 CKEDITOR_UPLOAD_PATH = 'wysiwyg/'  # media 밑에 wysiwyg 폴더
 CKEDITOR_RESTRICT_BY_USER = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = "jihoon1493@gmail.com"
-EMAIL_HOST_PASSWORD = "gkdl1493"
+EMAIL_HOST_USER = secret_key.key['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = secret_key.key['EMAIL_HOST_PASSWORD']
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

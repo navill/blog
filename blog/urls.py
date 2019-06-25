@@ -18,5 +18,5 @@ urlpatterns = [
     path('detail/<int:pk>/', PostDetail.as_view(), name='detail'),
     path('category/<int:pk>/', CategoryList.as_view(), name='c_list'),
     path('tags/<tag>/', PostTaggedObjectList.as_view(), name='post_taggedlist'),
-    path('tags/', TagList.as_view(), name='tag_list'),
+    # path('tags/', TagList.as_view(), name='tag_list'),
 ]

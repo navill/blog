@@ -1,4 +1,5 @@
 from django import template
+
 register = template.Library()
 
 """
@@ -7,6 +8,8 @@ register = template.Library()
 """
 
 from blog.models import *
+
+
 @register.simple_tag
 def print_post_list():
     return Post.objects.all()

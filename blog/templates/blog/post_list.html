@@ -6,8 +6,8 @@
 
 {% block content %}
 <!-- Page Header -->
-<!--TODO : list page의 주소를 확인할 수 있지만 detail에 접속할 경우 '/detail/13/static/blog/img/home-bg.jpg'를 인식하지 못하는 문제 해결-->
-<header class="masthead" style="background-image: url('/static/blog/img/home-bg.jpg')">
+<!--TODO : list page의 주소를 확인할 수 있지만 detail에 접속할 경우 '/detail/13/static/blog/img/home-bg.jpg'를 인식하지 못하는 문제-->
+<header class="masthead" style="background-image: url({% static 'blog/img/home-bg.jpg' %})">
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
@@ -22,7 +22,6 @@
 </header>
 <!-- Main Content -->
 {% load tagging_tags %}
-
 <div class="container">
     <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
@@ -37,13 +36,14 @@
                             {% if tags %}
                                 {% for tag in tags %}
                                     <a href="{% url 'blog:post_taggedlist' tag.name %}" style="color:#a3b4c3">#{{tag.name}} </a>
+                                    <!--리스트 페이지의 태그 네임 출력-->
                                 {% endfor %}
                             {% else %}
                             Empty Tag
                             {% endif %}
                     </h3>
                 </a>
-                <p class="post-meta">Posted by {{object.author}}
+                <p class="post-meta">Posted by {{object.author.username}}
                     at {{object.updated}}
                 </p>
             </div>

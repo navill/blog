@@ -1,8 +1,7 @@
-{% load staticfiles %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -21,8 +20,8 @@
         {%endblock%}
     </title>
     <!-- Bootstrap core CSS -->
-    <link href="{% static 'blog/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-    <!--<link href="{% static 'blog/vendor/bootstrap/css/bootstrap.css' %}" rel="stylesheet">-->
+    <!--<link href="{% static 'blog/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">-->
+    <link href="{% static 'blog/vendor/bootstrap/css/bootstrap.css' %}" rel="stylesheet">
 
     <!-- Custom fonts for this template -->
     <link href="{% static 'blog/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
@@ -33,7 +32,7 @@
           rel='stylesheet' type='text/css'>
 
     <!-- Custom styles for this template -->
-    <link href="{% static 'blog/css/clean-blog.css' %}" rel="stylesheet">
+    <link href="{% static 'blog/css/abc.css' %}" rel="stylesheet">
 
     <!--Naver Map API-->
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=b4wnbq4cd7"></script>
@@ -56,14 +55,17 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/">Home</a>
                 </li>
-                <li class="nav-item">
-                    <!--<a class="nav-link" href="{% url 'blog:about' %}">About</a>-->
-                    <a class="nav-link" href="{% url 'blog:about' %}">About</a>
-
-                </li>
                 <!--<li class="nav-item">-->
-                <!--<a class="nav-link" href="post.html">Sample Post</a>-->
+                    <!--<a class="btn dropdown-toggle" href="#" role="button" data-toggle="dropdown" id="dropdownMenuLink" aria-haspopup="true" aria-expanded="false">Category</a>-->
+                    <!--<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">-->
+                        <!--<a class="dropdown-item" href="#">TEST A</a>-->
+                        <!--<a class="dropdown-item" href="#">TEST B</a>-->
+                        <!--<a class="dropdown-item" href="#">TEST C</a>-->
+                    <!--</div>-->
                 <!--</li>-->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'blog:about' %}">About</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'blog:contact' %}">Contact</a>
                 </li>
@@ -71,7 +73,6 @@
         </div>
     </div>
 </nav>
-
 
 {% block content %}
 {% endblock %}

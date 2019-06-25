@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
+
 {% block title %}
 {% endblock %}
 
 {% block content %}
-<!--{{object.title}}-->
 {% load tagging_tags %}
 
 <!-- Page Header -->
-<header class="masthead" style="background-image: url('/static/blog/img/post-bg.jpg')">
+<header class="masthead" style="background-image: url({% static 'blog/img/post-bg.jpg' %})">
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
@@ -21,7 +22,7 @@
                         <a href="{% url 'blog:post_taggedlist' tag.name %}" style="color:#fff">#{{tag.name}} </a>
                         {% endfor %}
                         {% else %}Empty Tag{% endif %}</h2>
-                    <span class="meta">Posted by
+                    <span class="meta">Posted by JH
                     <a href="#">{{object.author}}</a> at
                     {{object.created}}</span>
                 </div>
@@ -34,7 +35,7 @@
 <article>
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="col-lg-10 col-md-12 mx-auto">
                 {{object.text|safe}}
             </div>
         </div>
